@@ -1,0 +1,1185 @@
+\documentclass[10pt]{article}
+%\documentclass[10pt]{scrartcl}
+
+\usepackage[marginparwidth=35pt,textheight=23cm,voffset=-1.2cm,footskip=1.3cm,voffset=0.2cm]{geometry}
+
+
+\usepackage{amsmath, amssymb, amsthm}
+
+\usepackage{mathrsfs}
+
+%\usepackage{mathabx}
+
+\usepackage[shortlabels]{enumitem}
+
+%\usepackage[dvips]{graphicx}
+%\usepackage[dvipsnames]{xcolor}
+
+%\usepackage{commath}
+
+%\usepackage{relsize}
+
+%\usepackage[cmtip,all]{xy}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,factor=1100,stretch=10,shrink=10]{microtype}
+
+
+ 
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+
+%\usepackage{cm-super}
+
+%\hyphenation{ма-те-ма-ти-ка вос-ста-нав-ли-вать}
+
+%\setlength\parindent{0pt}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,decorations.pathreplacing,arrows.meta,patterns,shapes.geometric}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\bfit}[1]{\textbf{\textit{#1}}}
+
+\newtheorem{thm}{Теорема}[section]
+
+\newtheorem{defn}[thm]{Определение}
+\newtheorem{prop}[thm]{Предложение}
+\newtheorem{lemma}[thm]{Лемма}
+\newtheorem{cor}[thm]{Следствие}
+
+\newtheoremstyle{boldnormal}
+    {\dimexpr\topsep/2\relax} % space above
+    {\dimexpr\topsep/2\relax} % space below
+    {\normalfont}  % body font (normal, not italic)
+    {}             % indent amount
+    {\bfseries}    % theorem head font
+    {.}            % punctuation after theorem head
+    {.5em}         % space after theorem head
+    {}
+
+
+\theoremstyle{boldnormal}
+\newtheorem{zadachsemm}{Семинарная задача}[section] 
+\newtheorem{zadachkontt}{Контрольная задача}[section] 
+
+\newcommand{\N}{{\ensuremath{\mathbb{N}}}}
+\newcommand{\Z}{{\ensuremath{\mathbb{Z}}}}
+\newcommand{\Q}{{\ensuremath{\mathbb{Q}}}}
+\newcommand{\I}{{\ensuremath{\mathbb{I}}}}
+\newcommand{\R}{{\ensuremath{\mathbb{R}}}}
+%\newcommand{\C}{{\ensuremath{\mathbb{C}}}}
+
+\newcommand{\PP}{{\ensuremath{\mathbb{P}}}}
+
+
+\newcommand{\EE}{{\ensuremath{\mathbb{E}}}}
+
+\newcommand{\eps}{\varepsilon}
+
+\newcommand{\dtorus}{{\ensuremath{\mathbb{T}^d}}}
+\newcommand{\wasstwospace}{{\ensuremath{\mathscr{P}(\mathbb{T}^d)}}}
+
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+
+\newtheoremstyle{boldremark}
+    {\dimexpr\topsep/2\relax} % space above
+    {\dimexpr\topsep/2\relax} % space below
+  {}          % body font
+    {}          % indent amount
+    {\bfseries} % theorem head font
+    {.}         % punctuation after theorem head
+    {.5em}      % space after theorem head
+    {}  
+
+\theoremstyle{boldremark}
+\newtheorem{rem}[thm]{Примечание}
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\diamond$}\rem}
+  {\popQED\endrem}
+
+\newtheorem{hypo}[thm]{Условие}
+\newenvironment{hypp}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lhd$}\hypo}
+  {\popQED\endhypo}
+
+\newtheorem{examplex}[thm]{Пример}
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\examplex}
+  {\popQED\endexamplex}
+
+
+\newenvironment{zadachsem}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangleleft$}\zadachsemm}
+  {\popQED\endzadachsemm}
+
+\newenvironment{zadachkont}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangleright$}\zadachkontt}
+  {\popQED\endzadachkontt}
+
+
+
+ 
+\IfFileExists{C:/Users/s.mayorga/YandexDisk/Documents/mybibfile.bib}{%
+    \addbibresource{C:/Users/s.mayorga/YandexDisk/Documents/mybibfile.bib}%
+}{%
+    \IfFileExists{/Users/sergio/Yandex.Disk.localized/Documents/mybibfile.bib}{%
+        \addbibresource{/Users/sergio/Yandex.Disk.localized/Documents/mybibfile.bib}%
+    }{%
+        \typeout{Neither full path exists, trying local mybibfile.bib}%
+        \addbibresource{mybibfile.bib}%
+    }%
+} 
+ 
+\usepackage{doi}
+
+\usepackage{hyperref}
+
+
+\author{Cергей МАЙОРГА ТАТАРИН}
+\date{\today}
+\title{Лекции 1 и 2 \\ Теория случайных процессов \\ Программа AI360, Университет Иннополис}
+\begin{document}
+
+\maketitle
+
+\section{Вводные понятия}
+
+\begin{defn} 
+(Случайный процесс) Пусть \((\Omega,\mathscr{F})\) --- 
+измеримое
+пространство, \(T\) --- любое множество. 
+\emph{Вещественно-значным случайным процессом на 
+\(T\)} назовем функцию \(\xi=\xi(t,\omega)\) от двух 
+перемен \(t\in T\),
+\(\omega\in\Omega\) такая, что для каждого фиксированного \(t\), 
+функция \(\omega\mapsto \xi(t,\omega)\) из \(\Omega\) в \(\R\) 
+является 
+случайной величиной.
+\end{defn}
+Чаще всего переменная \(t\) пишется как нижний индекс:
+\[
+\xi(t,\omega) = \xi_t(\omega).
+\]
+Если \(T\) состоит только из одной точки, то случайный
+процесс «вырождается» в одну
+только случайную величину.
+Если \(T\), например, равно множеству \(\{1,2,3\}\) то мы 
+имеем дело с трехмерным
+случайным вектором.
+Если \(T=I\) где \(I\subset \R\) --- интервал,
+то мы имеем дело с
+процессом \guillemetleft в непрерывном
+времени\guillemetright : в большинстве случаев, в самом деле,
+множество \(T\) интерпретируется как «время», и тогда 
+\(\xi_{t_1}\), \(\xi_{t_2}\), и т.~д.~интерпретируются как
+(случайные, ибо они еще зависят от \(\omega\))
+значения процесса в моменты времени \(t_1\), \(t_2\) и т.~д.
+
+Конкретные и простейшие примеры случайных процессов
+будут приведены ниже. Одна из первых целей \emph{теории}
+случайных процессов --- их математически строгое построение.
+
+Стоит напомнить о понятии измеримости функции. 
+Если \((\Omega,\mathscr{F})\) и \((Y,\mathcal{Y})\) 
+измеримые пространства (множества \(X\) и \(Y\) 
+с \(\sigma\)-алгебрами $\mathscr{F}$ и $\mathcal{Y}$ 
+соответственно) и \(f:\Omega\to Y\) функция, то она 
+называется измеримой когда для всякого \(E\in\mathcal{Y}\),
+\begin{equation}\label{eq:uslovieizmerimosti}
+\{\omega \in \Omega \ : \ f(\omega) \in E\} \in \mathscr{F}
+\end{equation}
+для всех \(E\in\mathcal{Y}\).
+Случайная величина, напомним, это как раз измеримая 
+функция из \(\Omega\) в \(Y=\R\), где \(\mathcal{Y}=
+\mathcal{B}(\R)\).
+
+\paragraph{Понятие распределения случайного вектора}
+Нам необходимо владеть понятием \emph{образа меры}.
+\begin{defn} (Образ меры)
+Пусть \((X,\mathcal{X})\) и \((Y,\mathcal{Y})\) 
+измеримые пространства (множества \(X\) и \(Y\) 
+с \(\sigma\)-алгебрами $\mathcal{X}$ и $\mathcal{Y}$ 
+соответственно) и \(f:X\to Y\) измеримая функция, 
+а \(\mu\) --- мера на \(\mathcal{Y}\). Тогда 
+\emph{образом меры \(\mu\) под функцией \(f\)} 
+называется мера на \(\mathcal{Y}\), обозначаемая 
+через \(\mu_f\), удовлетворяющая:
+\begin{align*}
+  P_f(E) = \mu(f^{-1}(E)), \qquad E\in \mathcal{Y}.
+\end{align*}
+Другие обозначения: \(f_{\#}\mu\), \(\mu\circ f^{-1}\).
+В случае, когда \(\mu=\mathbb{P}\), обозначают 
+и через \(P_{f}\).
+\end{defn}
+Символ \(f^{-1}\) в этой формуле не обозначает 
+обратную функцию от \(f\), которой может не быть. Символ
+\(f^{-1}(E)\) обозначает прообраз множества \(E\),
+то есть, множество точек \(x\) из \(X\) такие, что 
+\(f(x) \in E\).
+
+Можно сказать, что путем функции \(f\) 
+мы «воспроизводим» меру \(\mu\), «перенося»
+\(\mu\),
+определена 
+на исходном пространстве, на конечное пространство
+таким образом, что новая мера \(\mu_f\) на конечном пространстве
+«отражает» меру \(\mu\), принимая такие же значения
+на тех измеримых подмножествах множества \(Y\), как и мера 
+\(\mu\) на подмножествах множества \(X\),
+которые находятся 
+в соответствии c ними через функцию \(f\).
+
+\begin{defn} (Распределение случайного вектора)
+  Пусть \((\Omega,\mathscr{F},\mathbb{P})\) ---
+  вероятностное пространство и \(\xi:\Omega\to\R^d\) 
+  (\(d\geq 1\)) --- случайный вектор.
+  Его \emph{распределением} называется мера \(P_{\xi}
+  =\xi_{\#}\mathbb{P}\) на борелевской \(\sigma\)-алгебре 
+  \(\mathcal{B}(\R^d)\). 
+\end{defn}
+У любого случайного вектора \(\xi\) есть распределение
+(как и функция распределения \(F_{\xi}\)).
+\begin{example} (Распределение вырожденного случайного вектора
+  есть мера Дирака)
+  Пусть \(\xi(\omega) = x\) для всех \(\omega\in\Omega\),
+  где \(x\in \R^d\) --- фиксированный. Тогда, если 
+  \(x\in B\in \mathcal{B}(\R^d)\):
+  \begin{align*}
+    P_{\xi}(B) = \PP(\xi^{-1}(B)) = 
+    \PP(\Omega) = 1,
+  \end{align*}
+  а если \(x\notin B\in \mathcal{B}(\R^d)\), тогда 
+  \begin{align*}
+    P_{\xi}(B) = \PP(\emptyset) = 0.
+  \end{align*}
+  Получается, что \(P_{\xi} = \delta_{x}\), что 
+  называется мерой Дирака сосредоточена в
+  точке \(x\).
+\end{example}
+
+\begin{zadachsem}
+Пусть \(\Omega= [0,1]\), \(\mathscr{F}\) = \(\mathcal{B}([0,1])\) 
+(борелевская \(\sigma\)-алгебра на интервале \([0,1]\)) и 
+\(\PP = \mathscr{L}^1_{[0,1]}\) (лебеговская мера на \(\sigma\)-алгебре 
+\(\mathcal{B}([0,1]))\). Возьмем такую случайную величину:
+\begin{align*}
+  \xi(\omega) = 
+  \begin{cases} 
+    0 & \quad \textrm{ если } 0\leq \omega <1/3,
+    \\
+    1 & \quad \textrm{ если } 1/3\leq \omega < 2 /3.
+  \end{cases}
+\end{align*}
+Найти \(P_{\xi}\) (распределение случайной величины \(\xi\)). 
+\end{zadachsem}
+\begin{remark}\label{remark:funkzraspr}
+Из теории вероятности известно, что знание функции распределения 
+\(F_{(\xi_1,\xi_2,\ldots,\xi_d)}\) случайного вектора
+\((\xi_1,\ldots,\xi_d)\) однозначно определяет его распределение,
+и, наоборот, знание распределения \(P_{\xi_1,\ldots,\xi_n}\)
+определяет функцию вероятности \(F_{\xi_1,\ldots,\xi_d}\)
+(см.~\cite[II-3-Теорема 2]{shiryaev-rus}) 
+\end{remark}
+\paragraph{Замена переменных в интеграле Лебега}
+Важное свойство образа \(f_{\#}\mu\) меры \(\mu\) под измеримой функцией \(f:\Omega\to X\)
+ относится к интеграции функции \(g\) из множества \(X\) в \(\R\),
+являющейся интегрируемой относительно \(f_{\#}\mu\), потому, что
+в таком случае, имеет место формула
+\begin{equation}\label{eq:changeofvars}
+  \int_{X} g(x) (f_{\#}\mu)(dx) = \int_{\Omega} g\circ f (\omega) \mu(d\omega).
+\end{equation}
+(см.~\cite[II-6-Теорема 7]{shiryaev-rus}).
+Справедливо задаться вопросом --- а как понять, что функция \(g:X\to\R\) интегрируема
+по мере \(f_{\#}\mu\), но ответ находится в самом этом только что озвученном 
+факте, потому, что если \(g\) --- \(f_{\mu}\)-интегрируема, 
+то \eqref{eq:changeofvars} верно, и можно тогда проверить значения интегралов,
+скажем, положительной \(g^+\) и отрицательной \(g^-\) частей функции \(g\) 
+по \(f_{\#}\mu\) через правую часть уравнения \eqref{eq:changeofvars}; если 
+оба значения получаться конечными, тогда это значит,
+что \(g\) является \(f_{\#}\mu\)-измеримой.
+
+Из формулы \eqref{eq:changeofvars} следует, например, что
+для случайной величины \(\xi:\Omega\to\R\),
+\begin{align*}
+  \EE \xi = \int_{\R} x P_{\xi}(dx), \qquad 
+  \textrm{Var}(\xi) = \int_{\R} (x-\EE\xi)^2 P_{\xi}(dx),
+\end{align*}
+в случае, конечно, когда \(\EE\xi\) и \(\EE\xi^2\), соответственно,
+существуют, что зависит от конечности интегралов 
+\(\int_{\Omega}|\xi(\omega)| \PP(d\omega)\) и 
+\(\int_{\Omega}\xi^2(\omega)\PP(d\omega)\). Однако, как известно,
+если конечно значение второго интеграла, то конечно значение и первого.
+
+\begin{defn} (Сечения и выборочные траектории) 
+Пусть \((\xi_t)_{t\in T}\) случайно процесс, задан на \((\Omega,\mathscr{F})\).
+Если \(t\in T\) фиксируется, то \emph{сечением} в момент времени \(t\) 
+есть случайная величина \(\xi_t\). 
+Если \(\omega\in\Omega\) фиксируется, то функция \(t\mapsto \xi_t\)
+называется \emph{выборочной траекторией} или просто траекторией. 
+\end{defn}
+Множество \(\Omega\) содержит, как это принято истолковывать, 
+все возможные элементарные события. В этом смысле, исходу \(\omega\in\Omega\)
+соответствует целая функция (траектория) \(t\mapsto\xi_t(\omega)\). 
+Поэтому случайный процесс можно понимать как случайную функцию из \(T\) 
+в \(\Omega\), ведь каждая траектория --- случайная, зависит от \(\omega\).
+А можно понимать случайный процесс и как семейство (индексировано точками 
+\(t\in T\)) случайных величин. Обозначение процесса через \((\xi_t)_{t\in T}\)
+наводит мысль на эту, вторую интерпретацию, нежели интерпретации 
+в терминах выборочных 
+траекторий.
+
+\begin{example}\label{example:xiequalsomegat}
+Рассмотрим процесс $\xi_t(\omega)=t\omega$, \(t\in T= [0,\infty)\),
+\(\omega\in \Omega=[0,1]\).
+В качестве вероятностного пространства здесь рассматриваем тройку
+$(\Omega,\mathscr{F},\mathbb{P})$,
+где пространство исходов ${\Omega=[0,1]}$,
+$\sigma$-алгебра $\mathscr{F}$ является борелевской:
+$\mathscr{F} = \mathcal{B}([0,1])$,
+а вероятностная мера совпадает с мерой Лебега на отрезке $[0,1]$,
+которую обозначаем через \(\mathscr{L}^1_{[0,1]}\).
+Тогда при фиксированном $\omega_0\in[0,1]$
+траектория представляет собой линейную функцию
+${\xi_t(\omega_0)=\omega_0 t}$, принимающую значение ноль
+в момент ${t=0}$ и значение $\omega_0$ в момент $t=1$.
+Если же зафиксировать ${t_0\in(0,1]}$,
+то получится случайная величина ${\xi_{t_0}(\omega)=t_0\omega}$,
+равномерно распределенная на
+отрезке $[0,t_0]$, т.е.~${\xi_{t_0}\sim\textrm{Uni}(0,t_0)}$.
+При  ${t_0=0}$ получается вырожденная случайная величина:
+$\xi_0(\omega)=0$ при всех $\omega\in[0,1]$. 
+\end{example}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+
+    \draw[->] (0,0) -- (5,0) node[right] {$t$};
+    \draw[->] (0,0) -- (0,4) node[above] {$\xi_t(\omega)$};
+    
+
+    \foreach \w/\pos in {0.2/below left, 0.4/left, 0.6/right, 0.8/right, 1.0/above right} {
+        \draw[blue, thick] (0,0) -- (4,4*\w) node[\pos] {$\omega=\w$};
+    }
+    
+
+    \draw[dashed] (1,0) node[below] {$1$} -- (1,4);
+    
+
+    \foreach \w in {0.2,0.4,0.6,0.8,1.0} {
+        \fill (1,\w) circle (2pt);
+    }
+    
+    \node[text width=8cm] at (2.5, -1) {
+        \footnotesize Траектории процесса $\xi_t(\omega)=t\omega$ для различных $\omega\in[0,1]$.
+        При фиксированном $\omega$ траектория --- линейная функция. При фиксированном $t$ 
+        сечение --- случайная величина, равномерно распределенная на $[0,t]$.
+    };
+\end{tikzpicture}
+\caption{Выборочные траектории процесса из примера \ref{example:xiequalsomegat}}
+\label{fig:trajectories_example1}
+\end{figure}
+Обращаем внимание читателя на то, что в данном примере траектория
+процесса однозначно восстанавливается по ее части: достаточно
+узнать наклон траектории на любом интервале времени. На практике же
+более типичная ситуация -- это когда предыстория не позволяет однозначно
+восстановить траекторию процесса и узнать ее будущее. В таких случаях
+различным исходам $\omega_1$ и $\omega_2$ может соответствовать одна и
+та же наблюдаемая до текущего момента времени предыстория, но будущее
+этих траекторий может отличаться.
+
+\begin{example}\label{example:notpredicted}
+  Пусть \(T=\{1,2,3,\ldots\}\),
+  \((\Omega,\mathscr{F},\mathbb{P})
+  =([0,1],\mathcal{B}(\R),\mathscr{L}^1_{[0,1]})\).
+  Определим процесс в явном виде 
+  \(\{\xi_j\}_{j=1}^{\infty}\) так:
+  \begin{align*}
+    \xi_1(\omega) = & \ 
+    \begin{cases}
+    1 \  & \ \textrm{ если } \omega \in [0,1/2),
+    \\
+    0 \ & \ \textrm{ если } \omega \in [1/2,1];
+    \end{cases}
+    \qquad 
+    \xi_2(\omega) = 
+    \begin{cases}
+    1 \  & \ \textrm{ если } \omega \in [0,1/4)\cup(3/4,1],
+    \\
+    0 \ & \ \textrm{ если } \omega \in [1/4,3/4],
+    \end{cases}
+    \\
+     \xi_3 = & \ \xi_1, \xi_4 = \xi_2, \ldots 
+  \end{align*}
+Ясно, что каждое сечение, то есть, в этом примере, 
+каждая случайная величина \(\xi_j\) имеет распределение 
+\(\textrm{Bernoulli}(1/2)\). Допустим, что начинаем наблюдать процесс, 
+и выясняется, что 
+\begin{align*}
+  \xi_1(\omega) = 1.
+\end{align*}
+Можем ли мы из этого найти \(\omega\), и, таким образом 
+знать все будущие значения \(\xi_2,\xi_3,\ldots\)? Нет: 
+при, например, \(\omega_1=1/10\) мы получаем \(\xi_1(\omega_1) = 1,
+\xi_2(\omega_2) = 1\), но 
+при \(\omega_2=3/8\) получаем \(\xi_1(\omega_2) = 1,\xi_2(\omega_2)=0\).
+Из информации о том, что \(\xi_1(\omega) = 1\) мы не можем найти 
+исход \(\omega\) и, следовательно, не можем узнать всю траекторию.
+
+Заметим, что \(\xi_1\) и \(\xi_2\) можно интерпретировать как результаты 
+бросков честной монеты, и нетрудно проверить, что \(\xi_1\) и \(\xi_2\) 
+--- независимы. Одна из четырех проверок, которые нужно провести для 
+подтверждения независимости такова: 
+\begin{align*}
+  \PP(\xi_1 = 1, \xi_2=1) = \mathscr{L}^1_{[0,1]}([0,1/2)\cap [0,1/4))
+  = \mathscr{L}^1_{[0,1]}([0,1/4)) = \frac{1}{4} = \PP(\xi_1=1)\PP(\xi_2=1). 
+\end{align*}
+Но, конечно, вся последовательность \(\{\xi_j\}_{j=1}^{\infty}\)
+не является последовательностью независимых случайных величин, потому 
+что испытания с четными номерами всегда дадут одинаковые исходы,
+и аналогично с испытаниями с нечетными номерами. 
+
+Вопрос для более любопытного студента:
+можете задать случайный процесс как-то по другому, 
+так, чтобы \(\xi_1\), \(\xi_2\) и \(\xi_3\) оказались 
+независимыми в совокупности (но все же бернуллиевскими)?
+А чтобы также \(\xi_1\), \(\xi_2\), \(\xi_3\) и \(\xi_4\)?
+\end{example}
+\begin{zadachsem}\label{eq:notpredicted2}
+  Либо решая вопрос, задан в конце предыдущего примера, 
+  либо другим способом, придумать пример случайного 
+  процесса (задав его \emph{явно} как функцию из
+  \(T\times \Omega\) в \(\R\)), в котором знание 
+  значения \(\xi_1\) и \(\xi_2\) \emph{не} позволяло предсказать 
+  значения \(\xi_j\) для \(j=3,4,\ldots\).
+\end{zadachsem}
+
+\paragraph{Конечномерные распределения случайного процесса}
+Многие случайные процессы, как мы увидим, задаются через
+семейство так называемых конечномерных распределений. 
+\begin{defn} (Конечномерные распределения случайного процесса)
+  Пусть \((\xi_t)_{t\in T}\) --- случайный процесс. 
+  Его \emph{конечномерными распределениями} называются распределения
+  \(P_{\xi_{t_1},\ldots,\xi_{t_n}}\) случайных векторов
+  \(\xi_{t_1},\ldots,\xi_{t_n}\) при любых \(n\in \N\) 
+  и всяческих наборах различных точек \(t_1,t_2,\ldots\) из \(T\).
+\end{defn}
+Напомним, что распределение \(P_{\xi_{t_1},\ldots,\xi_{t_n}}\) 
+--- это мера на \((\R^n,\mathcal{B}(\R^n))\), характеризуема 
+равенствами  
+\begin{align*}
+  P_{\xi_{t_1},\ldots,\xi_{t_n}}(A) 
+  = \mathbb{P}(\{\omega\in \Omega \ : \ 
+  (\xi_{t_1}(\omega),\ldots,\xi_{t_n}(\omega))\in B\})
+\end{align*}
+для всех \(B\in \mathcal{B}(\R^d)\). Другими словами, 
+\(P_{\xi_{t_1},\ldots,\xi_{t_n}} =
+(\xi_{t_1},\ldots,\xi_{t_n})_{\#}\mathbb{P}\), образ меры \(\mathbb{P}\) 
+под случайным вектором \((\xi_{t_1},\ldots,\xi_{t_n})\).
+
+Наряду с понятием конечномерных распределений случайного процесса,
+не менее важны понятия среднего процесса и ковариационной функции процесса.
+\begin{defn} (Среднее, ковариационная функция)
+  Пусть \((\xi_t)_{t\in T}\) --- случайный процесс, задан 
+  на вероятностном пространстве \((\Omega,\mathscr{F},\mathbb{P})\).
+  \begin{itemize}
+    \item Если для каждого \(t\), существует \(\EE\xi_t\), то 
+    функция \(t\mapsto \EE\xi_t\) называется функция среднего 
+    процесса, обозначают ее часто через \(m(t)\);
+\item если еще существует, для каждой пары \((s,t)\in T\times T\),
+ковариация \(\textrm{Cov}(\xi_s,\xi_t)\), то функция 
+\(K(s,t) = \textrm{Cov}(\xi_s,\xi_t)\) из \(T\times T\) в \(\R\) называется 
+ковариационной функцией случайного процесса. 
+  \end{itemize}
+\end{defn}
+\textit{Предупреждение}. В некоторых текстах 
+эту функцию называют \textit{корреляцонной}, 
+в то время как ковариационной называют 
+функцию \((s,t) \mapsto \EE\xi_s\xi_t\).
+
+\begin{zadachsem}\label{zadachsem:findmeanandcov1}
+  Для процессов из примеров \ref{example:xiequalsomegat}
+  и \ref{example:notpredicted}, найти \(m(t)\) и \(K(t,s)\).
+\end{zadachsem}
+
+\begin{zadachsem}\label{zadachsem:Itomega}
+  Пусть \(T=[0,1]\), \(\Omega=[0,1]\),
+  \(\mathscr{F}=\mathcal{B}([0,1])\), \(\PP = \mathscr{L}^1_{[0,1]}\), 
+  \(\xi_t(\omega) = I(t\leq \omega)\).
+  \begin{enumerate}
+    \item Найти траектории, сечения и двумерные распределения процесса.
+    \item Исследовать сечения на попарную независимость.
+    \item Найти функцию среднего и ковариационной функции этого процесса.
+    \item Допустим, что мы наблюдаем за этим процессом и видим, 
+    что для всех \(t\in [0,t_0]\), \(\xi_t\equiv 1\) (это значит,
+    \(\xi_t(\omega) = 1\) для всех \(\omega \in \Omega\)). 
+    С какой вероятностью скачок до нуля произойдет на интервале 
+    времени \([t_0,t_0+\Delta t]\)? (Разумеется, \(\Delta t < 1-t_0\).)
+  \end{enumerate}
+\end{zadachsem}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+% Левая панель: Траектории для фиксированных ω
+\begin{scope}[xshift=0cm]
+    \draw[->] (0,0) -- (4.2,0) node[right] {$t$};
+    \draw[->] (0,0) -- (0,3.2) node[above] {$\xi_t(\omega)$};
+    \draw[dashed] (0,2) -- (4,2) node[right] {$1$};
+    \node[below] at (2,-0.3) {(a) Траектории для фиксированных $\omega$};
+    
+    % Сетка
+    \foreach \x in {0.5,1,1.5,2,2.5,3,3.5,4} {
+        \draw[gray!30] (\x,0) -- (\x,3);
+    }
+    \foreach \y in {0.5,1,1.5,2,2.5,3} {
+        \draw[gray!30] (0,\y) -- (4,\y);
+    }
+    
+    % Траектории для разных ω
+    % ω=0.2
+    \draw[very thick, blue] (0,2) -- (0.8,2) -- (0.8,0) -- (4,0);
+    \node[blue, fill=white, inner sep=1pt] at (0.4,2.2) {$\omega=0{,}2$};
+    \fill[blue] (0.8,2) circle (2pt);
+    \draw[blue, dashed] (0.8,0) node[below] {$0{,}2$} -- (0.8,2);
+    
+    % ω=0.5
+    \draw[very thick, red] (0,2) -- (2,2) -- (2,0) -- (4,0);
+    \node[red, fill=white, inner sep=1pt] at (1,2.4) {$\omega=0{,}5$};
+    \fill[red] (2,2) circle (2pt);
+    \draw[red, dashed] (2,0) node[below] {$0{,}5$} -- (2,2);
+    
+    % ω=0.8
+    \draw[very thick, green!70!black] (0,2) -- (3.2,2) -- (3.2,0) -- (4,0);
+    \node[green!70!black, fill=white, inner sep=1pt] at (1.6,2.6) {$\omega=0{,}8$};
+    \fill[green!70!black] (3.2,2) circle (2pt);
+    \draw[green!70!black, dashed] (3.2,0) node[below] {$0{,}8$} -- (3.2,2);
+    
+    % Подписи осей
+    \node at (-0.3,2) {$1$};
+    \node at (-0.3,0) {$0$};
+\end{scope}
+
+% Правая панель: Сечение при фиксированном t и его распределение
+\begin{scope}[xshift=5cm]
+    \draw[->] (0,0) -- (4.2,0) node[right] {$\omega$};
+    \draw[->] (0,0) -- (0,3.2) node[above] {$\xi_t(\omega)$};
+    \draw[dashed] (0,2) -- (4,2) node[right] {$1$};
+    \node[below] at (2,-0.3) {(b) Сечение при фиксированном $t=0{,}6$};
+    
+    % Сетка
+    \foreach \x in {0.5,1,1.5,2,2.5,3,3.5,4} {
+        \draw[gray!30] (\x,0) -- (\x,3);
+    }
+    \foreach \y in {0.5,1,1.5,2,2.5,3} {
+        \draw[gray!30] (0,\y) -- (4,\y);
+    }
+    
+    % Вертикальная линия t=0.6
+    \draw[very thick, purple, dashed] (2.4,0) node[below] {$0{,}6$} -- (2.4,3);
+    
+    % Сечение ξ_t(ω) для t=0.6
+    \draw[very thick, purple] (0,0) -- (2.4,0) -- (2.4,2) -- (4,2);
+    
+    % Заполнение областей для наглядности вероятностей
+    \fill[purple!20, opacity=0.5] (0,0) rectangle (2.4,2);
+    \fill[purple!20, opacity=0.3] (2.4,0) rectangle (4,2);
+    
+    % Подписи вероятностей
+    \node[purple] at (1.2, 0.5) {$\omega < 0{,}6$};
+    \node[purple] at (3.2, 0.5) {$\omega \geq 0{,}6$};
+    \node[purple] at (1.2, 2.5) {$\xi_{0{,}6}=0$};
+    \node[purple] at (3.2, 2.5) {$\xi_{0{,}6}=1$};
+    
+    % Подписи осей
+    \node at (-0.3,2) {$1$};
+    \node at (-0.3,0) {$0$};
+\end{scope}
+
+% Нижняя панель: Распределение сечения
+\begin{scope}[xshift=3cm, yshift=-4.5cm]
+    \draw[->] (0,0) -- (4.2,0) node[right] {значение с.~в.~$\xi_{0{,}6}$};
+    \draw[->] (0,0) -- (0,3.2) node[above] {Вероятность};
+    \node[below] at (2,-0.4) {(c) Распределение с.~в.~$\xi_{0{,}6}$:
+    \textrm{Bernoulli}(0{,}4)};
+    
+    % Сетка
+    \foreach \x in {1,2,3,4} {
+        \draw[gray!30] (\x,0) -- (\x,3);
+    }
+    \foreach \y in {0.5,1,1.5,2,2.5,3} {
+        \draw[gray!30] (0,\y) -- (4,\y);
+    }
+    
+    % Столбцы распределения
+    % Для ξ=0
+    \draw[fill=purple!50, opacity=0.7] (0.5,0) rectangle (1.5,{3*0.6});
+    \node at (1, -0.3) {$0$};
+    \node at (1, {3*0.6+0.2}) {$P(\xi_{0{,}6}=0)=0{,}6$};
+    
+    % Для ξ=1
+    \draw[fill=purple!50, opacity=0.7] (2.5,0) rectangle (3.5,{3*0.4});
+    \node at (3, -0.3) {$1$};
+    \node at (3, {3*0.4+0.2}) {$P(\xi_{0{,}6}=1)=0.4$};
+
+    
+    % Подписи осей
+    \foreach \y/\val in {3/1.0} {
+        \node[left] at (0,\y) {$\val$};
+    }
+\end{scope}
+\end{tikzpicture}
+\caption{рисунок к задаче \ref{zadachsem:Itomega}: траектории и сечения процесса $\xi_t(\omega) = I(t \leq \omega)$}
+\label{fig:indicator_process}
+\end{figure}
+
+В связи с интерпретацией процесса как случайные траектории, полезно 
+ввести понятия \textit{\textbf{случайного элемента}}. Любую измеримую 
+функцию \(f: \Omega \to E\) из измеримого пространства \(\Omega\) 
+с \(\sigma\)-алгеброй \(\mathscr{F}\) в измеримое пространство 
+\(E\) с \(\sigma\)-алгеброй \(\mathcal{E}\) называют 
+\textit{случайным элементом} множества \(E\). Идея понятна: 
+«случайность» заключается в том, что элемент \(e\in E\) который 
+мы видим, зависит от \(\omega\) (если \(e=f(\omega)\) для какого-то 
+\(\omega\in \Omega\)). Еще раз, напомним что
+измеримость функции при этих обозначениях означает
+выполнение условия \eqref{eq:uslovieizmerimosti} для всех 
+\(E\in \mathcal{E}\).
+
+Теперь понятно, что для развития интерпретации
+случайного процесса
+как \textbf{случайную траекторию}, то есть как 
+случайный элемент 
+множества \(\R^T\) (множество всех функции 
+из \(T\) в \(\R\)) нам
+не хватает \(\sigma\)-алгебры на этом множестве. 
+Для этого вводится понятие \emph{\textbf{цилиндра}
+с основаниями \(B_1,\ldots,B_n\), привязанными к
+точкам \(t_1,\ldots,t_n\) из \(T\)},
+где \(n\) --- любое натурально число и
+\(B_k\) --- борелевское подмножество 
+вещественной прямой:
+\begin{equation}\label{eq:defcyl}
+C_{t_1,\ldots,t_n}(B_1\times \cdots \times B_n)
+= 
+\{ f \in \R^T \ : \ f(t_1)\in B_1,\ldots,f(t_n)\in B_n\}.
+\end{equation}
+То есть цилиндр состоит из
+функций \(f:T\to\R\), которые
+«в моменты времени \(t_1,\ldots,t_n\)» должны 
+проходит «через окна» \(B_1,\ldots,B_n\) соответственно,
+а при остальных \(t\) они могут принимать любые значения.
+\begin{defn}\label{defn:borelsigmaalgebraonRT}
+Борелевской \(\sigma\)-алгеброй \(\mathcal{B}(\R^T)\)
+на множестве \(\R^T\) называется наименьшая
+\(\sigma\)-алгебра, содержащая все цилиндры.
+\end{defn}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    \draw[->] (0,0) -- (6,0) node[right] {$t$};
+    \draw[->] (0,0) -- (0,4) node[above] {$x$};
+    
+    \coordinate (t1) at (2,0);
+    \coordinate (t2) at (4,0);
+    
+    \draw[dashed] (t1) -- (2,4) node[above] {$t_1$};
+    \draw[dashed] (t2) -- (4,4) node[above] {$t_2$};
+    \fill[blue!20, opacity=0.7] (1.8,1.5) rectangle (2.2,2.5);
+    \fill[red!20, opacity=0.7] (3.8,1.0) rectangle (4.2,2.0);
+    
+    \node at (2,2.7) {$B_1$};
+    \node at (4,2.3) {$B_2$};
+    
+    \draw[thick, green!50!black] (0,0.5) to[out=20, in=180] (2,2) to[out=0, in=160] (4,1.5) to[out=20, in=180] (5.5,3);
+    \draw[thick, orange] (0,1.2) to[out=10, in=190] (2,1.8) to[out=10, in=170] (4,1.2) to[out=10, in=180] (5.5,2.5);
+    \draw[thick, purple] (0,2.0) to[out=0, in=200] (2,2.2) to[out=20, in=150] (4,1.8) to[out=30, in=190] (5.5,3.2);
+    
+    \draw[dashed, blue] (1.8,1.5) -- (1.8,2.5);
+    \draw[dashed, blue] (2.2,1.5) -- (2.2,2.5);
+    \draw[dashed, red] (3.8,1.0) -- (3.8,2.0);
+    \draw[dashed, red] (4.2,1.0) -- (4.2,2.0);
+    
+    \node[text width=8cm] at (3, -1) {
+        \footnotesize Цилиндр $C_{t_1,t_2}(B_1\times B_2)$ состоит из всех функций $f:T\to\mathbb{R}$, 
+        таких что $f(t_1)\in B_1$ и $f(t_2)\in B_2$. На рисунке показаны три траектории, 
+        принадлежащие этому цилиндру (проходят через «окна» $B_1$ и $B_2$ в моменты $t_1$ и $t_2$).
+    };
+\end{tikzpicture}
+\caption{Иллюстрация цилиндра в пространстве траекторий}
+\label{fig:cylinder_example}
+\end{figure}
+
+Если \(T={0,1,2,\ldots}\) или 
+\(T=\{1,2,\ldots\}\) обозначают \(\R^T\) и 
+\(\mathcal{B}(\R^T)\) через 
+\(\R^{\infty}\) и \(\mathcal{B}(\R^{\infty})\) 
+соответственно или же с символом \(\N\) вместо 
+\(\infty\). В таком случае, напомним, 
+элемент из \(\R^{\infty}\) понимается 
+как последовательность вещественных чисел. 
+\begin{zadachsem}\label{zadachesem:limitsareinborelsigmaalg}
+  Доказать, что следующие множества принадлежат \(\sigma\)-алгебре 
+  \(\mathcal{B}(\R^{\infty})\):
+  \begin{enumerate}
+    \item \(\{x\in\R^{\infty} \ : \ \sup_{x_n} > a \}\),
+    \item \(\{x\in \R^{\infty} \ : \ \limsup x_n \leq a\}\),
+    \item \(\{x\in \R^{\infty} \ : \ \lim_{n\to\infty} x_n 
+    \text{ существует и он конечен }\}\),
+    \item \(\{x\in \R^{\infty} \ : \ \sum_{n=1}^{\infty}|x_n| > a\}\).
+  \end{enumerate}
+  \textit{Подсказка}. Объединение множеств относится 
+  к оператору «существует», а пересечение --- к оператору 
+  «для всех».
+\end{zadachsem}
+Как было упомянуто выше, многие процессы 
+задаются через задание их конечномерных
+распределений. Их существование обеспечивается 
+теоремой Колмогорова (Теорема \ref{thm:kolmogorovsogext}
+ниже), в которой процесс, с желаемыми конечномерными 
+распределениями строится 
+на пространстве \((\Omega,\mathscr{F})\) где 
+\(\Omega  = \R^T\) и \(\mathscr{F}=\mathcal{B}(\R^T)\).
+Но можно сразу сказать, что такая конструкция сама 
+по себе не
+достаточна если хочется обосновать существование
+процессов, которые
+владели бы такими свойствами, как непрерывность,
+или монотонность, или неотрицательность, и так далее
+--- свойства, широко возникающие в практике. Причиной 
+является следующая теорема \cite[II-2-Теорема 5]{shiryaev-rus}:
+\begin{thm}\label{thm:}
+Любой элемент \(\sigma\)-алгебры 
+определяется \guillemetleft ограничениями\guillemetright,
+наложенными на функции \((x_t)_{t\in T}\) не более чем
+в счетном числе точек из множества \(T\), то есть
+\begin{align*}
+  A \in \mathcal{B}(\R^T) 
+  \Longleftrightarrow \exists \{t_j\}_{j=1}^{\infty} 
+  \subset T 
+  \text{ и }  B\in \mathcal{B}(\R^{\infty})
+  \text{ такие, что } A = 
+  \{x\in \R^T \ : \ (x_{t_1},x_{t_2},\ldots) \in B\}.
+\end{align*}
+\end{thm} 
+Для понимания недостаточности, упомянутой выше,
+полезно разобрать следующую задачу, используя эту теорему.
+\begin{zadachsem}\label{zadachasem:notinsigmaalgebra1}
+Какие из следующих множеств принадлежит 
+\(\sigma\)-алгебре \(\mathcal{B}(\R^{[0,1]})\)?
+\begin{enumerate}
+  \item \(\{x\in \R^{[0,1]} \ : \ 
+  x_t = 0 \ \forall t\in [0,1]\}\),
+  \item \(\{x\in \R^{[0,1]} \ : \ 
+  x_t = > c \ \forall t\in [0,1]\}\),
+  \item \(\{x\in \R^{[0,1]} \ : \ 
+  x_t = 0  \ \text{ хотя бы для одного } t\in [0,1]\}\),
+  \item \(\{x\in \R^{[0,1]} \ : \ 
+  x \text{ непрерывна в фиксированной точке } t_0 \in [0,1]\}\).
+\end{enumerate}
+\end{zadachsem}
+Перед обсуждением теорем Колмогорова 
+(Теорема \ref{thm:kolmogorovsogext} и 
+Теорема \ref{thm:kolmogorovcontver} ниже)
+нам понадобятся 
+два весьма естественных понятия: 1) 
+\textit{распределение случайного процесса}
+и 2) \textit{процесс координатных проекций}.
+
+\paragraph{Распределение случайного процесса}
+Пусть \((\Omega,\mathcal{F},\mathbb{P})\) 
+--- вероятностное пространство и 
+\((\xi_t)_{t\in T}\) случайный процесс на нем. 
+Множество функций \(\R^T\) возьмем 
+с \(\sigma\)-алгеброй \(\mathcal{B}(\R^T)\).
+\textit{Распределением случайного процесса}
+\((\xi_t)_{t\in T}\) называется 
+образ \(\operatorname{trj}_{\#}\PP\) меры \(\PP\) под 
+функцией \(\operatorname{trj}\)
+и обозначается \(P_{\xi}\), 
+где \(\operatorname{trj}\)
+определена так:
+\begin{align*}
+  \operatorname{trj} : \ \Omega & \longrightarrow 
+  \R^{T} 
+  \\
+  \omega & \longmapsto 
+  \left\{
+\begin{aligned}
+\operatorname{trj}(\omega): \ T & \longrightarrow \R 
+\\ 
+ t & \longmapsto \xi_t(\omega).
+\end{aligned}
+  \right.
+\end{align*}
+То есть, словами, \(\operatorname{trj}\) это просто функция, 
+которая каждому элементарному событию 
+\(\omega\) сопоставляет соответствующую выборочную 
+траекторию \(t\mapsto \xi_t(\omega)\). 
+Разумеется, нужно сначала проверить, что
+\(\operatorname{trj}\) --- измеримая функция,
+иначе, понятие образа меры под этой функцией бессмысленно.
+Но это легко: если \(C=C_{t_1,\ldots,t_n}(B_1\times\cdots
+\times B_n)\) --- цилиндр, то 
+\begin{align*}
+\operatorname{trj}^{-1}(C) = & \ 
+\{\omega \in \Omega \ : \ 
+\operatorname{trj}(\omega) \in C\} 
+=  \{\omega \in \Omega \ : \ 
+\xi_{t_1}\in B_1, \ldots, \xi_{t_n}\in B_n
+\} 
+\\
+= & \ \xi_{t_1}^{-1}(B_1)\cap \ldots \cap 
+\xi_{t_n}^{-1}(B_n) \in \mathcal{F},
+\end{align*}
+ибо каждая \(\xi_{t_j}\) --- случайная величина. 
+Получается, что для каждого подмножества 
+\(\R^T\), из класса подмножеств, порождающего 
+\(\sigma\)-алгебру \(\mathcal{B}(\R^T)\),
+проверяется условие измеримости 
+\eqref{eq:uslovieizmerimosti}. Из следующего упражнения,
+следует и справедливость условия измеримости 
+и для всех элементов \(\sigma\)-алгебры \(\mathcal{B}(\R^T)\).
+\begin{zadachsem}\label{zadachsem:izmerimostnageneratorakh}
+ Пусть \((\Omega,\mathscr{F})\) и \((Y,\mathcal{Y})\) 
+измеримые пространства (множества \(X\) и \(Y\) 
+с \(\sigma\)-алгебрами $\mathscr{F}$ и $\mathcal{Y}$ 
+соответственно), причем \(\sigma\)-алгебра
+\(\mathcal{Y}\) на \(Y\) порождается каким-то
+подсемейством \(\mathcal{Y}_0\) подмножеств из \(Y\), 
+что обозначается как \(\sigma(\mathcal{Y}_0)=\mathcal{Y}\).
+Пусть \(f:\Omega\to Y\) функция. Если 
+\begin{equation*}
+\{\omega \in \Omega \ : \ f(\omega) \in E\} \in \mathscr{F}
+\end{equation*}
+для всех \(E\in\mathcal{Y}_0\), то это верно и для 
+всех \(E\in \mathcal{Y}\).
+\end{zadachsem}
+Значит \(\operatorname{trj}\) измерима и
+для всякого \(E\in \mathcal{B}(\R^T)\), 
+\begin{align*}
+  P_{\xi}(E) = 
+  \PP(\{\omega \in \Omega \ : \ 
+  \text{ функция } t\mapsto \xi_t(\omega) 
+  \text{ принадлежит к } E\}).
+\end{align*}
+
+\paragraph{Процесс координатных проекций}
+Допустим есть теперь только \(\R^T\) с \(\sigma\)-алгеброй 
+\(\mathcal{B}(\R^T)\). Если \(\omega\in \R^T\) --- любой элемент,
+то есть, \(\omega\) является какой-то \textit{функцией}
+из \(T\) в \(\R\), то и для любого \(t\in T\), 
+\(\omega(t) \in \R\). Обозначим теперь \(\R^T\) через \(\Omega\) 
+и \(\mathcal{B}(\R^T)\) через \(\mathscr{F}\). Только что сделанное наблюдение 
+позволяет определить процесс \((\xi_t)_{t\in T}\) на этом измеримом пространстве 
+\((\Omega,\mathscr{F})\) таким образом:
+\begin{align*}
+  \xi_t(\omega) = \omega(t), \qquad t\in T, \ \omega \in \Omega = \R^T.
+\end{align*}
+Легко проверить, что каждая функция \(\xi_t\) является случайной 
+величиной (упражнение).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    \draw[->] (0,0) -- (6,0) node[right] {$t$};
+    \draw[->] (0,0) -- (0,4) node[above] {$x$};
+    
+    \node[draw, blue, shape=ellipse, minimum width=3cm, minimum height=2cm] (Omega) at (1.5,2) {$\Omega = \mathbb{R}^T$};
+    \node[blue] at (1.5,3.5) {Пространство всех функций};
+    
+    \draw[thick, red] (0.5,1.0) to[out=20, in=180] (2,2.5) to[out=0, in=180] (3.5,1.5) 
+                      to[out=0, in=180] (4.5,2.8) to[out=0, in=160] (5.5,2.0);
+    \node[red] at (3,0.7) {$\omega \in \Omega$ (траектория)};
+    
+
+    \coordinate (t0) at (3.2,0);
+    \draw[dashed] (t0) -- (3.2,4);
+    \node at (3.2,-0.3) {$t_0$};
+    
+
+    \fill[red] (3.2,1.82) circle (3pt);
+    \draw[dashed, red] (3.2,1.82) -- (5,1.82);
+    
+
+    \draw[->] (5,1) -- (7,1) node[right] {$\mathbb{R}$};
+    \fill[red] (6,1) circle (3pt) node[above] {$\xi_{t_0}(\omega)=\omega(t_0)$};
+    
+
+    \draw[->, thick, blue] (Omega) to[bend left=20] node[above] {$\xi_{t_0}$} (6,1);
+    
+    \node[text width=8cm] at (3.5, -1) {
+        \footnotesize Процесс координатных проекций: для каждого $t\in T$ отображение 
+        $\xi_t:\Omega\to\mathbb{R}$ сопоставляет траектории $\omega$ её значение
+        в момент $t$: $\xi_t(\omega)=\omega(t)$.
+    };
+\end{tikzpicture}
+\caption{Схематическое изображение процесса координатных проекций}
+\label{fig:coordinate_projection}
+\end{figure}
+
+Значит, одно существование \(\R^T\) с \(\sigma\)-алгеброй 
+уже зарождает случайный процесс, однако, конечно, интересен 
+только вопрос об его распределении, а без какой-либо меры 
+на \((\R^T,\mathcal{B}(\R^T))\) такой вопрос не стоит.
+Тогда, пусть \(P_0\) --- произвольная
+вероятностная мера 
+на \((\R^T,\mathcal{B}(\R^T))\), и пусть
+\((\xi_t)_{t\in T}\) --- процесс координатных 
+проекций. Тогда распределение этого процесса 
+совпадает с \(P_0\), что остается как
+очень простое упражнение:
+\begin{zadachsem}\label{zadachsem:P0equalsPxi}
+  Пусть \(P_0\) --- вероятностная мера 
+  на пространстве \((\Omega,\mathscr{F})\),
+  где \(\Omega=\R^T\) и 
+  \(\mathscr{F}=\mathcal{B}(\R^T)\).
+  Пусть \((\xi_t)_{t\in T}\) --- 
+  соответствующий процесс координатных 
+  проекции. Доказать, что \(P_{\xi}=P_0\).
+\end{zadachsem}
+
+Настает пора дать теорему Колмогорова
+о существовании процесса с заданными 
+конечномерными распределениями. 
+Это теорема называется \emph{теоремой Колмогорова
+о согласованных распределениях}. Для начала, 
+дадим определение --- что мы имеем ввиду 
+под «согласованными распределениями».
+
+\begin{center}\emph{Впредь, если не оговариваем об обратном,
+  мы будем считать что \(T\) --- 
+подмножество полупрямой \([0,\infty)\).}
+\end{center}
+
+\begin{defn}\label{defn:consistenfamilydist}
+Пусть имеется, для каждого \(n\in \N\) и
+каждого набора различных неотрицательных 
+чисел \(t_1,\ldots,t_n\) из \(T\),
+вероятностная мера \(Q_{t_1,\ldots,t_n}\) 
+на \((\R^n,\mathcal{B}(\R^n))\).
+Всё семейство этих мер называется 
+\emph{семейством конечномерных распределений},
+и это семейство называется 
+\emph{согласованным}, если выполняются 
+эти два условия:
+\begin{enumerate}[(i)]
+\item для каждого \(n\), каждого 
+набора \((t_1,\ldots,t_n)\), любой 
+перестановки \((t_{j_1},\ldots,t_{j_n})\) этих 
+чисел, и любых \(B_1,\ldots,B_n\in \mathcal{B}(\R)\),
+верно:
+\begin{align*}
+  Q_{t_1,\ldots,t_n}(B_1\times \cdots 
+  \times B_n) =
+  Q_{t_{j_1},\ldots,t_{j_n}}
+  (B_{j_1}\times \cdots 
+  \times B_{j_n});
+\end{align*}
+\item для каждого \(n\geq 2\), каждого 
+набора \((t_1,\ldots,t_n)\), любого 
+\(B\in \mathcal{B}(\R^{n-1})\),
+верно:
+\begin{align*}
+  Q_{t_1,\ldots,t_n}(B\times \R) 
+  = Q_{t_1,\ldots,t_{n-1}}(B).
+\end{align*} 
+\end{enumerate}
+\end{defn}
+\begin{zadachkont}\label{zadachcont:fddareconsistent}
+Пусть \((\xi_t)_{t\in T}\) --- случайный процесс,
+где \(T\subset [0,\infty)\). 
+Доказать, что семейство его конечномерных 
+распределений образует семейство
+согласованных конечномерных распределений. 
+\end{zadachkont}
+Свойство согласованности для конечномерных 
+распределений уже заданного
+случайного процесса настолько естественно, 
+что сам факт определения понятия согласованности 
+может вызывать недоумение. Однако 
+нетрудно придумать пример, в котором семейство 
+\(\mathcal{Q}\) нарушает условия согласованности.
+Если, скажем, \(1,2\in T\) и \(\mathcal{Q}\) 
+содержит меры \(P_{1,2}\) и \(P_{2,1}\) такие:
+\(P_{1,2}=\mathscr{L}^2_{[0,1]^2}\) (мера 
+Лебега ограничена на квадрате, то есть, 
+\(\mathscr{L}^2_{[0,1]^2}(B) =
+\mathscr{L}^2(B\cap [0,1]^2)\)), а 
+\(P_{2,1}\) --- гауссовская мера\footnote{Это мера, задана 
+плотностью гауссовского вектора. Например,
+\(P_{2,1}(B) = \frac{1}{2\pi}\int_B 
+e^{-\frac{1}{2}(x_1^2 + x_2^2)}dx_1dx_2\)
+для всех \(B\in \mathcal{B}(\R^2)\).} на
+ \((\R^2,\mathcal{B}(\R^2))\), то, очевидно,
+ \(\mathcal{Q}\) уже нарушает первое условие 
+ согласованности.
+
+
+
+\begin{thm}\label{thm:kolmogorovsogext}
+  (Колмогорова о согласованных 
+  распределениях)
+Пусть \(T\subset [0,\infty)\) и
+\(\mathcal{Q}\) --- семейство 
+согласованных конечномерных распределений. 
+Тогда существует \((\Omega,\mathscr{F},\mathbb{P})\)
+и процесс \((\xi_t)_{t\in T}\) на нем, у 
+которого семейство конечномерных
+распределений равно семейству \(\mathcal{Q}\).
+\end{thm}
+В самом деле нет никакой тайны по поводу 
+того, какими оказываются 
+\(\Omega\) и \(\mathscr{F}\) в доказательстве 
+этой теоремы: \(\R^T\) и \(\mathcal{B}(\R^T)\).
+Легко проверить, что определяя 
+функцию \(P\) на цилиндрах ровно так, 
+как это «прописано» соответствующей 
+мерой из семейства \(\mathcal{Q}\)
+(то есть, 
+цилиндру \(C=C_{t_1,\ldots,t_n}(B_1\times\cdots \times B_n)\)
+дать значение \(P(C) = P_{t_1,\ldots,t_n}(B_1\times B_n)\))
+получается конечно-аддитивная функция
+на алгебре всех цилиндров, и далее
+доказательство занимается расширением 
+этой конечно-аддитивной функции 
+до (вероятностной) меры на всю 
+\(\sigma\)-алгебру \(\mathcal{B}(\R^T)\).
+
+Эта теорема, хоть и фундаментальная, 
+еще не решает проблему --- 
+как построить процесс, с заданными 
+конечномерными распределениями, но с каким-то 
+еще желаемым свойством, например, 
+монотонность, или непрерывность. Если,
+например, множество 
+\(C([0,1])\) всех непрерывных 
+функций было бы \(\mathcal{B}(\R^{[0,1]})\)-измеримым,
+то можно было бы: 1) получить, теоремой 
+Колмогорова, процесс \((\xi_t)_{t\in T}\) 
+с требованными конечномерными распределениями,
+2) распределение \(P_{\xi}\) этого процесса 
+ограничить на множестве \(C([0,1])\)
+(возможно, нормировав меру),
+затем забыть обо \(\R^T\setminus C([0,1])\) 
+и радоваться новому вероятностному
+пространству непрерывных функции, у 
+которого процесс координатных 
+проекции состоял бы уже целиком из 
+непрерывных траекторий. Но, увы,
+\(C[0,1]\), и другие полезные для приложений 
+подмножества --- не измеримы относительно 
+\(\sigma\)-алгебры \(\mathcal{B}(\R^{[0,1]})\).
+Поэтому теоретикам пришлось еще поработать, чтобы добиться 
+оправданного обсуждения таких объектов.
+
+В связи с этим необходимо ввести понятие
+\textit{модификацией} (также называется \textit{версией}),
+случайного процесса. 
+\begin{defn}\label{defn:modificationofprocess}
+  (Стохастическая эквивалентность и неразличимость)
+  Пусть \((\xi_t)_{t\in T}\) --- случайный процесс на пространстве 
+  \((\Omega,\mathscr{F},\PP)\). 
+  \begin{enumerate} 
+  \item Случайный процесс \((\eta)_{t\in T}\),
+  определен на
+  этом же пространстве, называется \emph{версией} или \emph{модификацией}
+  случайного процесса \((\xi_t)_{t\in T}\) если для каждого 
+  \(t\in T\), множество 
+  \[
+  N_t = \{\omega \in \Omega \ | \ 
+  \xi_t(\omega)\neq \eta_t(\omega) \}
+  \]
+  \(\mathscr{F}\)-измеримо и \(\PP(N_t) = 0\).
+  В таком случае еще говорят, что 
+  \((\eta)_{t\in T}\) и \((\xi_t)_{t\in T}\) --- 
+  \emph{стохастически эквивалентные}.
+  \item Если для случайного процесса \((\eta_t)_{t\in T}\), 
+  существуем \(N\in\mathscr{F}\), такое что \(\PP(N)=0\) и
+  для всех \(\omega\in \Omega\setminus N\), 
+  функции \(t\mapsto \xi_t(\omega)\) и \(t\mapsto \eta_t(\omega)\)
+  одинаковы, то процессы \((\xi_t)_{t\in T}\) и \((\eta_t)_{t\in T}\)
+  называются \emph{неразличимыми}.
+\end{enumerate}
+\end{defn}
+Кратко, говорят что \((\eta_t)_{t\in T}\) есть модификация 
+процесса \((\xi_t)_{t\in T}\) если 
+для всех \(t\), \(\xi_t = \eta_t\) п.~н.~---«почти наверное», 
+то есть везде кроме, возможно, на измеримом множества меры нуль. Но 
+в определении этого понятия это множество может меняться для разных \(t\).
+
+А эти два процесса неразличимы если п.~н.~все их траектории идентичные. 
+
+Следующий факты доказываются очень легко:
+\begin{enumerate}
+  \item если два процесса неразличимы, то они стохастически
+  эквивалентные;
+  \item у стохастически эквивалентных процессов одинаковые 
+  конечномерные распределения;
+  \item стохастическая эквивалентность --- отношение эквивалентности
+  на множестве всех случайных процессов на \((\Omega,\mathscr{F},\mathbb{P})\).
+  Также неразличимость.
+\end{enumerate}
+Но, вообще, стохастическая эквивалентность не влечет неразличимость:
+\begin{example}\label{example:indicatortequalomega}
+  Пусть \((\Omega,\mathscr{F},\PP) = ([0,1],\mathcal{B}([0,1]),
+  \mathscr{L}^1_{[0,1]})\),
+  \(\xi_t(\omega) := 0\) для всех \(t\) и \(\omega\),
+  \(\eta_t(\omega) := I(\omega=t)\). Эти процессы 
+  стохастически эквивалентные:
+  \begin{align*}
+    \text{ для } t\in T, \quad 
+    \{\omega \in \Omega \ : \ \xi_t\neq \eta_t(\omega)\} 
+    = \{t\},
+  \end{align*}
+  а \(\mathbb{P}(\{t\}) = 0\).
+  Но для каждого \(\omega\in \Omega\), есть одна точка (а именно, 
+  \(t=\omega\)) где траектории не совпадают (одна принимает значения 
+  \(0\) там, другая \(1\)). Эти процессы не только неразличимы, 
+  они даже «везде различимы». 
+  
+  А еще, у \((\xi_t)_{t\in T}\) все траектории непрерывные,
+  но у \((\eta_t)_{t\in T}\) все траектории разрывные.
+\end{example}
+Однако бывает, что если рассматривать эти понятия в более узком классе
+процесс, они совпадают:
+\begin{zadachkont}\label{zadachkont:fromrightthenthesame}
+  Если у процессов \((\xi_t)_{t\in T}\) и \((\eta_t)_{t\in T}\),
+  определенных на одном и том же вероятностном пространстве, 
+  п.~н.~траектории непрерывные справа, и эти процессы стохастически
+  эквивалентные, то они неразличимы.
+\end{zadachkont}
+Приведем теперь теорему Колмогорова и сделаем 
+несколько комментариев касательно нее.
+\begin{thm}\label{thm:kolmogorovcontver} (Колмогорова о непрерывной 
+  версии процесса)
+Пусть \(T=[0,\infty)\), \((\xi_t)_{t\in T}\) --- случайный процесс. Если
+существуют числа \(\alpha,\beta,C>0\) при которых, для 
+всех \(s,t\in T\), 
+\begin{align*}
+  \EE|\xi_s-\xi_t|^{\alpha} \leq C |t-s|^{1+\beta},
+\end{align*}
+то существует непрерывная модификация \((\eta)_{t\in T}\) 
+этого процесса, для которого 
+\begin{align*}
+  \PP\big( \big\{ \omega \in \Omega \ : \
+  \sup_{\substack{ 0<t-s<h(\omega)\\ s,t\in [0,\infty) }}
+  \frac{|\xi_t(\omega)-\eta_t(\omega)|}{|t-s|^{\gamma}} 
+  \leq \delta
+  \big\}  \big) = 1
+\end{align*}
+для любого \(\gamma\in (0,\frac{\beta}{\alpha})\) и 
+для какой-то константы \(\delta\) и функции \(h\),
+положительна для \(\mathbb{P}\)-п.в.~\(\omega\).
+\end{thm}
+
+
+
+\printbibliography
+
+\end{document}
